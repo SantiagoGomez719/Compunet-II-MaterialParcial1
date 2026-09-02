@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Repositorio. Si en ItemRepositoryImpl usaste @PostConstruct/@PreDestroy
+         quita init-method/destroy-method de aquí (son la versión XML de lo mismo). -->
+    <bean id="itemRepositoryBean"
+        class="com.compunet.repository.ItemRepositoryImpl"
+        init-method="metodoInicial"
+        destroy-method="metodoFinal"/>
+
+    <!-- Servicio con inyección por CONSTRUCTOR -->
+    <bean id="itemServiceBean" class="com.compunet.service.ItemServiceImpl">
+        <constructor-arg ref="itemRepositoryBean"/>
+    </bean>
+
+    <!-- Servicio con inyección por SETTER -->
+    <bean id="itemServiceSetterBean" class="com.compunet.service.ItemServiceSetterImpl">
+        <property name="itemRepository" ref="itemRepositoryBean"/>
+    </bean>
+
+    <!-- Ejemplo de bean con scope prototype (una instancia nueva cada vez) -->
+    <!-- <bean id="reciboBean" class="com.compunet.model.Recibo" scope="prototype"/> -->
+
+</beans>
